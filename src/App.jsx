@@ -1,3 +1,4 @@
+import Sidebar from "./components/Sidebar"
 
 
 function App() {
@@ -5,7 +6,7 @@ function App() {
 
   return (
     <>
-      <h1 className="text-red-500 p-6" >oi</h1>
+      <Sidebar/>
     </>
   )
 }
