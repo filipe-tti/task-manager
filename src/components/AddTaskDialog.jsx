@@ -1,12 +1,20 @@
 import { createPortal } from "react-dom"
+import { CSSTransition } from "react-transition-group"
+import './AddTaskDialog.css'
+
 import Input from "./input"
 import Button from './Button'
+import { useRef } from "react"
 
 const AddTaskDialog = ({isOpen, handleClose}) => {
+    const nodeRef = useRef()
 
-    if(!isOpen) return null
+ 
 
-  return createPortal( <div className="fixed bottom-0 left-0 top-0 flex h-screen w-screen items-center justify-center backdrop-blur">
+  return (
+    <CSSTransition nodeRef={nodeRef} in={isOpen} timeout={500} classNames="add-task-dialog" unmountOnExit>
+       <div>
+         {createPortal( <div ref={nodeRef} className="fixed bottom-0 left-0 top-0 flex h-screen w-screen items-center justify-center backdrop-blur">
         
         {/* DIALOG */}
         <div className="p-5 rounded-xl text-center bg-white shadow">
@@ -29,8 +37,12 @@ const AddTaskDialog = ({isOpen, handleClose}) => {
         </div>
 
     </div>, document.body)
-   
-  
 }
+  
+       </div>
 
+    </CSSTransition>
+        
+  )
+}
 export default AddTaskDialog
