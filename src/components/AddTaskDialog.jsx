@@ -1,48 +1,110 @@
 import { createPortal } from "react-dom"
 import { CSSTransition } from "react-transition-group"
-import './AddTaskDialog.css'
+import "./AddTaskDialog.css"
+import {v4} from "uuid"
 
 import Input from "./input"
-import Button from './Button'
-import { useRef } from "react"
+import Button from "./Button"
+import { useEffect, useRef, useState } from "react"
 
-const AddTaskDialog = ({isOpen, handleClose}) => {
-    const nodeRef = useRef()
+import TimeSelect from "./TimeSelect"
 
- 
+const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
+  const [title, setTitle] = useState()
+  const [time, setTime] = useState("morning")
+  const [description, setTDescription] = useState()
+
+  const nodeRef = useRef()
+
+  useEffect(() => {
+    if(!isOpen){
+        setTitle("")
+        setTime("")
+        setTDescription("")
+    }
+  },[isOpen])
+
+  const handleSaveClick = () => {
+    handleSubmit({
+      id: v4(),
+      title,
+      time,
+      description,
+      status: "not_started",
+    })
+
+    handleClose()
+  }
 
   return (
-    <CSSTransition nodeRef={nodeRef} in={isOpen} timeout={500} classNames="add-task-dialog" unmountOnExit>
-       <div>
-         {createPortal( <div ref={nodeRef} className="fixed bottom-0 left-0 top-0 flex h-screen w-screen items-center justify-center backdrop-blur">
-        
-        {/* DIALOG */}
-        <div className="p-5 rounded-xl text-center bg-white shadow">
-            <h2 className="text-[#35383E] font-semibold text-xl">Nova Tarefa</h2>
-            <p className="text-[#9a9c9f] text-sm mt-1 mb-4">Insira as informações abaixo</p>
+    <CSSTransition
+      nodeRef={nodeRef}
+      in={isOpen}
+      timeout={500}
+      classNames="add-task-dialog"
+      unmountOnExit
+    >
+      <div>
+        {createPortal(
+          <div
+            ref={nodeRef}
+            className="fixed bottom-0 left-0 top-0 flex h-screen w-screen items-center justify-center backdrop-blur"
+          >
+            {/* DIALOG */}
+            <div className="rounded-xl bg-white p-5 text-center shadow">
+              <h2 className="text-xl font-semibold text-[#35383E]">
+                Nova Tarefa
+              </h2>
+              <p className="mb-4 mt-1 text-sm text-[#9a9c9f]">
+                Insira as informações abaixo
+              </p>
 
-            <div className="space-y-4 flex flex-col w-[336px]">
-                    <Input id="tittle" label="Título" placeholder="Insira o título da tarefa"/>
+              <div className="flex w-[336px] flex-col space-y-4">
+                <Input
+                  id="tittle"
+                  label="Título"
+                  placeholder="Insira o título da tarefa"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                />
 
-                    <Input id="time" label="Horário" placeholder="Horário"/>
-                   
-                    <Input id="description" label="Descrição" placeholder="Descreva a tarefa"/>
+                <TimeSelect
+                  value={time}
+                  onChange={(event) => setTime(event.target.value)}
+                ></TimeSelect>
 
-                    <div className="flex gap-3">
-                        <Button size="large" className="w-full" variant="secondary" onClick={handleClose}>Cancelar</Button>
-                        <Button size="large" className="w-full">Salvar</Button>
-                    </div>
+                <Input
+                  id="description"
+                  label="Descrição"
+                  placeholder="Descreva a tarefa"
+                  value={description}
+                  onChange={(event) => setTDescription(event.target.value)}
+                />
+
+                <div className="flex gap-3">
+                  <Button
+                    size="large"
+                    className="w-full"
+                    variant="secondary"
+                    onClick={handleClose}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    size="large"
+                    className="w-full"
+                    onClick={handleSaveClick}
+                  >
+                    Salvar
+                  </Button>
+                </div>
+              </div>
             </div>
-
-        </div>
-
-    </div>, document.body)
-}
-  
-       </div>
-
+          </div>,
+          document.body
+        )}
+      </div>
     </CSSTransition>
-        
   )
 }
 export default AddTaskDialog

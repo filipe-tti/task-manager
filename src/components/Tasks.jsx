@@ -59,6 +59,11 @@ const Tasks = () => {
 
           setTasks(newTasks)     
     }
+
+    const handleAddTaskSubmit = (task,) => {
+        setTasks([...tasks, task])
+        toast.success("Tarefa adcionada com sucesso!")
+    }
   
 
 
@@ -81,9 +86,10 @@ const Tasks = () => {
           <Button onClick={() => setAddTaskDialogIsOpen(true)}>
             Nova tarefa
             <AddIcon />
+            
           </Button>
 
-          <AddTaskDialog isOpen={addTaskDialogIsOpen} handleClose={handleDialogClose}/>
+          <AddTaskDialog isOpen={addTaskDialogIsOpen} handleClose={handleDialogClose}  handleSubmit={handleAddTaskSubmit}/>
         </div>
       </div>
 
