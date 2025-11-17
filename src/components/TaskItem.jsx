@@ -1,27 +1,27 @@
-import {CheckIcon,LoaderIcon,DetailsIcon,TrashIcon} from "../assets/icons"
-import Button from '../components/Button'
+import { CheckIcon, LoaderIcon, DetailsIcon, TrashIcon } from "../assets/icons"
+import Button from "../components/Button"
 
-const TaskItem = ({task, handleCheckboxClick, handleDeleteClick}) => {
-
-    const getStatusClassses = () => {
-        if( task.status === "done"){
-            return "bg-[#00adb5]  text-[#00adb5]"
-        }
-
-        if (task.status === "in_progress") {
-            return "bg-[#ffaa04]  text-[#ffaa04]"
-        }
-
-         if (task.status === "not_started") {
-            return "bg-[#35383e] bg-opacity-10  text-[#35383e]"
-        }
+const TaskItem = ({ task, handleCheckboxClick, handleDeleteClick }) => {
+  const getStatusClassses = () => {
+    if (task.status === "done") {
+      return "bg-brand-primary  text-brand-primary"
     }
 
-  return (
-        <div className={` transition justify-between bg-opacity-10 text-sm px-4 py-3 flex items-center gap-2 rounded-lg ${getStatusClassses()}`}>
+    if (task.status === "in_progress") {
+      return "bg-brand-process  text-brand-process"
+    }
 
-        <div className='flex items-center gap-2'>
-              <label
+    if (task.status === "not_started") {
+      return "bg-brand-dark-blue bg-opacity-10  text-brand-dark-blue"
+    }
+  }
+
+  return (
+    <div
+      className={`flex items-center justify-between gap-2 rounded-lg bg-opacity-10 px-4 py-3 text-sm transition ${getStatusClassses()}`}
+    >
+      <div className="flex items-center gap-2">
+        <label
           className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getStatusClassses()}`}
         >
           <input
@@ -29,28 +29,27 @@ const TaskItem = ({task, handleCheckboxClick, handleDeleteClick}) => {
             checked={task.status === "done"}
             className="absolute h-full w-full cursor-pointer opacity-0"
             onChange={() => handleCheckboxClick(task.id)}
-           
           />
 
-          {task.status === "done"  && <CheckIcon/>}
-          {task.status === "in_progress"  && <LoaderIcon className="animate-spin text-brand-white" />}
-          
-          
+          {task.status === "done" && <CheckIcon />}
+          {task.status === "in_progress" && (
+            <LoaderIcon className="animate-spin text-brand-white" />
+          )}
         </label>
 
-            {task.title}
-        </div>
+        {task.title}
+      </div>
 
-        <div className='flex items-center gap-2'>
-          <Button variant='ghost' onClick={()=> handleDeleteClick(task.id)}>
-            <TrashIcon className="text-[#9a9c9f]"/>
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" onClick={() => handleDeleteClick(task.id)}>
+          <TrashIcon className="text-brand-text-gray" />
         </Button>
 
-        <a href='#' className='hover:opacity-75 transition'><DetailsIcon/></a>
-        </div>
-
-        
-        </div>
+        <a href="#" className="transition hover:opacity-75">
+          <DetailsIcon />
+        </a>
+      </div>
+    </div>
   )
 }
 

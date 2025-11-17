@@ -8,7 +8,7 @@ const Input = ({label,errorMessage, ...rest}) => {
 
     <InputLabel htmlFor={rest.id}>{label}</InputLabel>
 
-<input className="px-4 py-3 border-solid border border-[#ececec] rounded-lg placeholder:text-sm placeholder:text-[#9a9c9f] outline-[#00adb5]"{...rest}/>
+<input className="px-4 py-3 border-solid border border-brand-border rounded-lg placeholder:text-sm placeholder:text-brand-text-gray outline-brand-primary"{...rest}/>
 
       {errorMessage && (
         <InputErrorMessage>{errorMessage}</InputErrorMessage>

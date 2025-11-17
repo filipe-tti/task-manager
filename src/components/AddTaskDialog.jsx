@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom"
 import { CSSTransition } from "react-transition-group"
 import "./AddTaskDialog.css"
-import {v4} from "uuid"
+import { v4 } from "uuid"
 
 import Input from "./input"
 import Button from "./Button"
@@ -10,53 +10,44 @@ import { useRef, useState } from "react"
 import TimeSelect from "./TimeSelect"
 
 const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
-  
-  
-  
   const [errors, setErrors] = useState([])
 
   const nodeRef = useRef()
   const titleRef = useRef()
   const descriptionRef = useRef()
-const timeRef = useRef()
-
-
+  const timeRef = useRef()
 
   const handleSaveClick = () => {
     const newErrors = []
 
     const title = titleRef.current.value
     const description = descriptionRef.current.value
-    const time= timeRef.current.value
+    const time = timeRef.current.value
 
-    if(!title.trim()){
+    if (!title.trim()) {
       newErrors.push({
-          inputName: 'title',
-          message: 'O título é obrigatório!',
-      },
-    )
+        inputName: "title",
+        message: "O título é obrigatório!",
+      })
     }
-    
-     if(!time.trim()){
-        newErrors.push({
-          inputName: 'time',
-          message: 'O horário é obrigatório!',
-      },
-    )
-     }
 
-      if(!description.trim()){
-        newErrors.push({
-          inputName: 'description',
-          message: 'O descrição é obrigatória!',
-      },
-    )
+    if (!time.trim()) {
+      newErrors.push({
+        inputName: "time",
+        message: "O horário é obrigatório!",
+      })
+    }
+
+    if (!description.trim()) {
+      newErrors.push({
+        inputName: "description",
+        message: "O descrição é obrigatória!",
+      })
     }
 
     setErrors(newErrors)
 
-    if(newErrors.length > 0 ){
-      
+    if (newErrors.length > 0) {
       return
     }
 
@@ -71,9 +62,11 @@ const timeRef = useRef()
     handleClose()
   }
 
-  const titleError = errors.find(error => error.inputName === 'title')
-  const timeError = errors.find(error => error.inputName === 'time')
-  const descriptionError = errors.find(error => error.inputName === 'description')
+  const titleError = errors.find((error) => error.inputName === "title")
+  const timeError = errors.find((error) => error.inputName === "time")
+  const descriptionError = errors.find(
+    (error) => error.inputName === "description"
+  )
 
   return (
     <CSSTransition
@@ -91,10 +84,10 @@ const timeRef = useRef()
           >
             {/* DIALOG */}
             <div className="rounded-xl bg-white p-5 text-center shadow">
-              <h2 className="text-xl font-semibold text-[#35383E]">
+              <h2 className="text-xl font-semibold text-brand-dark-blue">
                 Nova Tarefa
               </h2>
-              <p className="mb-4 mt-1 text-sm text-[#9a9c9f]">
+              <p className="mb-4 mt-1 text-sm text-brand-text-gray">
                 Insira as informações abaixo
               </p>
 
@@ -103,31 +96,22 @@ const timeRef = useRef()
                   id="tittle"
                   label="Título"
                   placeholder="Insira o título da tarefa"
-                 
                   errorMessage={titleError?.message}
                   ref={titleRef}
                 />
 
-              
-
                 <TimeSelect
-                 
                   errorMessage={timeError?.message}
                   ref={timeRef}
                 ></TimeSelect>
-
-             
 
                 <Input
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
-                  
                   errorMessage={descriptionError?.message}
                   ref={descriptionRef}
                 />
-
-               
 
                 <div className="flex gap-3">
                   <Button

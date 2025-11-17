@@ -1,5 +1,11 @@
 import Button from "./Button"
-import { TrashIcon, AddIcon, SunIcon, CloudSunIcon, MoonIcon} from "../assets/icons"
+import {
+  TrashIcon,
+  AddIcon,
+  SunIcon,
+  CloudSunIcon,
+  MoonIcon,
+} from "../assets/icons"
 import TasksSeparator from "./TasksSeparator"
 import { useState } from "react"
 import TASKS from "../constants/tasks"
@@ -8,7 +14,6 @@ import { toast } from "sonner"
 import AddTaskDialog from "./AddTaskDialog"
 
 const Tasks = () => {
-  
   const [tasks, setTasks] = useState(TASKS)
   const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] = useState(false)
 
@@ -17,62 +22,54 @@ const Tasks = () => {
   const eveningTasks = tasks.filter((task) => task.time === "evening")
 
   const handleDialogClose = () => {
-     setAddTaskDialogIsOpen(false)
+    setAddTaskDialogIsOpen(false)
   }
 
   const handleDeleteClick = (taskId) => {
-    const newTasks = tasks.filter(task => task.id != taskId)
-      setTasks(newTasks)
-      toast.success("Tarefa deletada com sucesso!")
-
+    const newTasks = tasks.filter((task) => task.id != taskId)
+    setTasks(newTasks)
+    toast.success("Tarefa deletada com sucesso!")
   }
 
   const handleTaskCheckboxClick = (taskId) => {
     const newTasks = tasks.map((task) => {
-      if(task.id != taskId ) {
+      if (task.id != taskId) {
         return task
       }
 
       // essa tarefa eu preciso atualizar
 
-      if(task.status === 'not_started'){
+      if (task.status === "not_started") {
         toast.success("Tarefa iniciada com sucesso!")
-        return {... task, status: 'in_progress'}
-        
+        return { ...task, status: "in_progress" }
       }
 
-       if(task.status === 'in_progress'){
+      if (task.status === "in_progress") {
         toast.success("Tarefa concluída com sucesso!")
-        return {... task, status: 'done'}
+        return { ...task, status: "done" }
       }
 
-  
-
-    if(task.status === 'done'){
-      toast.success("Tarefa reiniciada com sucesso!")
-        return {... task, status: 'not_started'}
-        
+      if (task.status === "done") {
+        toast.success("Tarefa reiniciada com sucesso!")
+        return { ...task, status: "not_started" }
       }
 
       return task
     })
 
-          setTasks(newTasks)     
-    }
+    setTasks(newTasks)
+  }
 
-    const handleAddTaskSubmit = (task,) => {
-        setTasks([...tasks, task])
-        toast.success("Tarefa adcionada com sucesso!")
-    }
-  
-
-
+  const handleAddTaskSubmit = (task) => {
+    setTasks([...tasks, task])
+    toast.success("Tarefa adcionada com sucesso!")
+  }
 
   return (
-    <div className="w-full px-8 py-16 space-y-6">
+    <div className="w-full space-y-6 px-8 py-16">
       <div className="flex w-full justify-between">
         <div>
-          <span className="text-xs font-semibold text-[#00adb5]">
+          <span className="text-xs font-semibold text-brand-primary">
             Minhas Tarefas
           </span>
           <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
@@ -86,10 +83,13 @@ const Tasks = () => {
           <Button onClick={() => setAddTaskDialogIsOpen(true)}>
             Nova tarefa
             <AddIcon />
-            
           </Button>
 
-          <AddTaskDialog isOpen={addTaskDialogIsOpen} handleClose={handleDialogClose}  handleSubmit={handleAddTaskSubmit}/>
+          <AddTaskDialog
+            isOpen={addTaskDialogIsOpen}
+            handleClose={handleDialogClose}
+            handleSubmit={handleAddTaskSubmit}
+          />
         </div>
       </div>
 
@@ -100,12 +100,16 @@ const Tasks = () => {
 
         <div className="space-y-3">
           <TasksSeparator title="Manhã" icon={<SunIcon />} />
-          
-           {/* Tarefas de manhã */}
-           {morningTasks.map((task) => (
-            <TaskItem key={task.id} task={task} handleCheckboxClick={handleTaskCheckboxClick} handleDeleteClick={handleDeleteClick}/>
-           ))}
 
+          {/* Tarefas de manhã */}
+          {morningTasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleCheckboxClick={handleTaskCheckboxClick}
+              handleDeleteClick={handleDeleteClick}
+            />
+          ))}
         </div>
 
         {/* Tarde */}
@@ -113,12 +117,15 @@ const Tasks = () => {
         <div className="my-6 space-y-3">
           <TasksSeparator title="Tarde" icon={<CloudSunIcon />} />
 
-            {/* Tarefas de tarde */}
-            {afternoonTasks.map((task) => (
-            <TaskItem key={task.id} task={task} handleCheckboxClick={handleTaskCheckboxClick} handleDeleteClick={handleDeleteClick}/>
-           ))}
-
-
+          {/* Tarefas de tarde */}
+          {afternoonTasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleCheckboxClick={handleTaskCheckboxClick}
+              handleDeleteClick={handleDeleteClick}
+            />
+          ))}
         </div>
 
         {/* Noite */}
@@ -126,12 +133,15 @@ const Tasks = () => {
         <div className="space-y-3">
           <TasksSeparator title="Noite" icon={<MoonIcon />} />
 
-            {/* Tarefas de noite */}
-            {eveningTasks.map((task) => (
-            <TaskItem key={task.id} task={task} handleCheckboxClick={handleTaskCheckboxClick} handleDeleteClick={handleDeleteClick}/>
-           ))}
-
-
+          {/* Tarefas de noite */}
+          {eveningTasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleCheckboxClick={handleTaskCheckboxClick}
+              handleDeleteClick={handleDeleteClick}
+            />
+          ))}
         </div>
       </div>
     </div>

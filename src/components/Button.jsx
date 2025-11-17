@@ -1,37 +1,40 @@
-
-
-const Button = ({children, variant = "primary", size="small" , className, ...rest}) => {
-
-    const getVariantClasses = () => {
-        if(variant === 'primary'){
-            return 'bg-[#00adb5] text-white'
-        }
-
-         if (variant === "ghost"){
-            return "bg-transparent text-[#818181]"
-        }
-
-        if (variant === "secondary"){
-            return "bg-[#eeeeee] text-[#35383e]"
-        }
-
-
+const Button = ({
+  children,
+  variant = "primary",
+  size = "small",
+  className,
+  ...rest
+}) => {
+  const getVariantClasses = () => {
+    if (variant === "primary") {
+      return "bg-brand-primary text-white"
     }
 
-    const getSizeClasses = () => {
-       if (size === 'small'){
-        return "py-1 text-xs"
-       }
-
-       if (size === 'large'){
-        return "py-2 text-sm"
-       }
+    if (variant === "ghost") {
+      return "bg-transparent text-brand-dark-gray"
     }
+
+    if (variant === "secondary") {
+      return "bg-brand-light-gray text-brand-dark-blue"
+    }
+  }
+
+  const getSizeClasses = () => {
+    if (size === "small") {
+      return "py-1 text-xs"
+    }
+
+    if (size === "large") {
+      return "py-2 text-sm"
+    }
+  }
 
   return (
-    <button className={`font-semibold flex justify-center hover:opacity-75 transition items-center gap-2 px-3 rounded-md  ${getVariantClasses()} ${getSizeClasses()} ${className}`} {...rest}>
-        {children}
-       
+    <button
+      className={`flex items-center justify-center gap-2 rounded-md px-3 font-semibold transition hover:opacity-75 ${getVariantClasses()} ${getSizeClasses()} ${className}`}
+      {...rest}
+    >
+      {children}
     </button>
   )
 }
