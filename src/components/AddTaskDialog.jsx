@@ -5,28 +5,30 @@ import {v4} from "uuid"
 
 import Input from "./input"
 import Button from "./Button"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 import TimeSelect from "./TimeSelect"
 
 const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
-  const [title, setTitle] = useState()
-  const [time, setTime] = useState("morning")
-  const [description, setTDescription] = useState()
+  
+  
+  
   const [errors, setErrors] = useState([])
 
   const nodeRef = useRef()
+  const titleRef = useRef()
+  const descriptionRef = useRef()
+const timeRef = useRef()
 
-  useEffect(() => {
-    if(!isOpen){
-        setTitle("")
-        setTime("morning")
-        setTDescription("")
-    }
-  },[isOpen])
+
 
   const handleSaveClick = () => {
     const newErrors = []
+
+    const title = titleRef.current.value
+    const description = descriptionRef.current.value
+    const time= timeRef.current.value
+
     if(!title.trim()){
       newErrors.push({
           inputName: 'title',
@@ -51,8 +53,10 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     )
     }
 
+    setErrors(newErrors)
+
     if(newErrors.length > 0 ){
-      setErrors(newErrors)
+      
       return
     }
 
@@ -99,17 +103,17 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   id="tittle"
                   label="Título"
                   placeholder="Insira o título da tarefa"
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
+                 
                   errorMessage={titleError?.message}
+                  ref={titleRef}
                 />
 
               
 
                 <TimeSelect
-                  value={time}
-                  onChange={(event) => setTime(event.target.value)}
+                 
                   errorMessage={timeError?.message}
+                  ref={timeRef}
                 ></TimeSelect>
 
              
@@ -118,9 +122,9 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
-                  value={description}
-                  onChange={(event) => setTDescription(event.target.value)}
+                  
                   errorMessage={descriptionError?.message}
+                  ref={descriptionRef}
                 />
 
                
