@@ -1,4 +1,5 @@
 import InputLabel from "./InputLabel"
+import InputErrorMessage from "./inputErrorMessage"
 
 const TimeSelect = (props) => {
   return (
@@ -14,7 +15,7 @@ const TimeSelect = (props) => {
                     </select>
 
                     {props.errorMessage && (
-        <p className="text-xs text-left text-red-500">{props.errorMessage}</p>
+                        <InputErrorMessage>{props.errorMessage}</InputErrorMessage>
       )}
                     </div>
   )
