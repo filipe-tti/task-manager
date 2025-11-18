@@ -3,6 +3,8 @@ import { CSSTransition } from "react-transition-group"
 import "./AddTaskDialog.css"
 import { v4 } from "uuid"
 
+import PropTypes from "prop-types"
+
 import Input from "./input"
 import Button from "./Button"
 import { useRef, useState } from "react"
@@ -111,6 +113,7 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   placeholder="Descreva a tarefa"
                   errorMessage={descriptionError?.message}
                   ref={descriptionRef}
+                 
                 />
 
                 <div className="flex gap-3">
@@ -139,4 +142,13 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     </CSSTransition>
   )
 }
+
+AddTaskDialog.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+
+}
+
+
 export default AddTaskDialog
