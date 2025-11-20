@@ -45,7 +45,18 @@ const Tasks = () => {
     setAddTaskDialogIsOpen(false)
   }
 
-  const handleDeleteClick = (taskId) => {
+  const handleDeleteClick = async (taskId) => {
+    
+    //chamar api para deletar tarefa
+    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+      method: 'DELETE',
+    })
+
+    if(!response.ok){
+       return toast.error("Erro ao deletar a tarefa. Por favor, tente novamente.")
+    }
+    //apos chamar api, atualizar state
+
     const newTasks = tasks.filter((task) => task.id != taskId)
     setTasks(newTasks)
     toast.success("Tarefa deletada com sucesso!")
@@ -80,7 +91,18 @@ const Tasks = () => {
     setTasks(newTasks)
   }
 
-  const handleAddTaskSubmit = (task) => {
+  const handleAddTaskSubmit = async (task) => {
+    
+    //chamar a API para adcionar essa tarefa
+    const response = await fetch("http://localhost:3000/tasks", {
+      method: 'POST',
+      body: JSON.stringify(task),
+    })
+
+    if(!response.ok){
+      return toast.error("Erro ao adicionar a tarefa. Por favor tente novamente.")
+    }
+
     setTasks([...tasks, task])
     toast.success("Tarefa adcionada com sucesso!")
   }
