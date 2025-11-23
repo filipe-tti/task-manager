@@ -10,16 +10,20 @@ import Button from "./Button"
 import { useRef, useState } from "react"
 
 import TimeSelect from "./TimeSelect"
+import { toast } from "sonner"
+import { LoaderIcon } from "../assets/icons"
 
-const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
+const AddTaskDialog = ({ isOpen, handleClose, onSubmitSuccens }) => {
   const [errors, setErrors] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const nodeRef = useRef()
   const titleRef = useRef()
   const descriptionRef = useRef()
   const timeRef = useRef()
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
+    setIsLoading(true)
     const newErrors = []
 
     const title = titleRef.current.value
@@ -50,17 +54,25 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     setErrors(newErrors)
 
     if (newErrors.length > 0) {
-      return
+      return setIsLoading(false)
     }
 
-    handleSubmit({
-      id: v4(),
-      title,
-      time,
-      description,
-      status: "not_started",
+    const task = { id: v4(), title, time, description, status: "not_started" }
+
+    const response = await fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      body: JSON.stringify(task),
     })
 
+    if (!response.ok) {
+      setIsLoading(false)
+      return toast.error(
+        "Erro ao adicionar a tarefa. Por favor tente novamente."
+      )
+    }
+
+    onSubmitSuccens(task)
+    setIsLoading(false)
     handleClose()
   }
 
@@ -113,7 +125,6 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   placeholder="Descreva a tarefa"
                   errorMessage={descriptionError?.message}
                   ref={descriptionRef}
-                 
                 />
 
                 <div className="flex gap-3">
@@ -129,7 +140,9 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                     size="large"
                     className="w-full"
                     onClick={handleSaveClick}
+                    disabled={isLoading}
                   >
+                    {isLoading && <LoaderIcon className="animate-spin" />}
                     Salvar
                   </Button>
                 </div>
@@ -144,11 +157,9 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
 }
 
 AddTaskDialog.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 }
-
 
 export default AddTaskDialog

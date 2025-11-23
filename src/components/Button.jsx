@@ -10,7 +10,7 @@ const Button = ({
 }) => {
 
   const button = tv ({
-    base: 'flex items-center justify-center gap-2 rounded-md px-3 font-semibold transition hover:opacity-75',
+    base: "flex items-center justify-center gap-2 rounded-md px-3 font-semibold transition hover:opacity-75",
     variants: {
       color:{
         primary: "bg-brand-primary text-white",
@@ -23,6 +23,9 @@ const Button = ({
         small: "py-1 text-xs",
         large: "py-2 text-sm"
       },
+      disabled:{
+        true:  "opacity-50 cursor-not-allowed hover:opacity-50",
+      }
 
     },
 
@@ -34,7 +37,7 @@ const Button = ({
 
   return (
     <button
-      className={button({ color, size, className })}
+      className={button({ color, size,disabled: rest.disabled, className })}
       {...rest}
     >
       {children}
