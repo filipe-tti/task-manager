@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.11",
+    "axios": "^1.13.2",
     "json-server": "^1.0.0-beta.3",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hook-form": "^7.67.0",
     "react-router-dom": "^7.9.6",
     "react-transition-group": "^4.4.5",
     "sonner": "^2.0.7",
